@@ -9,7 +9,7 @@
 <script type="text/javascript">
 document.onload = animate();
 function animate(){
-    var ruleNum = '1';
+    var ruleNum = '110';
     var rule = {
       '110': {'111' : 0,
               '110' : 1,
@@ -39,15 +39,19 @@ function animate(){
     var dataStr = "";
 
     if(myCanvas.innerHTML === ""){
+        var optionsArray = ['0', '1'];
+
         var len = browserWidth;
         while(len > 0){
-            renderStr += "0";
+            var rand = "0";
+            var rand = optionsArray[Math.floor(Math.random() * optionsArray.length)];
+            renderStr += rand;
             len = len - 1;
         }
         renderStr += "1";
         for(i = 0; i < renderStr.length; i++){
             dataStr += renderStr[i];
-            outputStr += renderStr[i] === "1" ? " " : "*";
+            outputStr += renderStr[i] === "0" ? " " : "*";
         }
     } else {
         for(i = 0; i < renderStr.length; i++){
@@ -57,7 +61,7 @@ function animate(){
 
             ruleIndex = renderStr[x].toString() + renderStr[y].toString() + renderStr[z].toString();
             dataStr += rule[ruleNum][ruleIndex].toString();
-            outputStr += rule[ruleNum][ruleIndex] === 1 ? " " : "*";
+            outputStr += rule[ruleNum][ruleIndex] === 0 ? " " : "*";
         }
     }
     myCanvas.setAttribute('data-array', dataStr);
