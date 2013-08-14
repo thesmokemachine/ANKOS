@@ -1,0 +1,72 @@
+<html>
+<head>
+  <title>Rule 110</title>
+</head>
+<body>
+<pre id="font_sizer" style="position:absolute; visibility:hidden; height:auto; width:auto;">*</pre>
+<pre id="myCanvas" style="text-align:center;" data-array="">
+</pre>
+<script type="text/javascript">
+document.onload = animate();
+function animate(){
+    var ruleNum = '1';
+    var rule = {
+      '110': {'111' : 0,
+              '110' : 1,
+              '101' : 1,
+              '100' : 0,
+              '011' : 1,
+              '010' : 1,
+              '001' : 1,
+              '000' : 0},
+       '1' : {'111' : 0,
+              '110' : 1,
+              '101' : 1,
+              '100' : 0,
+              '011' : 1,
+              '010' : 0,
+              '001' : 0,
+              '000' : 1}};
+
+    var fontSizer = document.getElementById('font_sizer');
+    var fontWidth = fontSizer.offsetWidth;
+    var fontHeight = fontSizer.offsetHeight;
+    var browserWidth = Math.floor(self.innerWidth/fontWidth) - 4;
+
+    var myCanvas = document.getElementById('myCanvas');
+    var renderStr = myCanvas.getAttribute('data-array');
+    var outputStr = "";
+    var dataStr = "";
+
+    if(myCanvas.innerHTML === ""){
+        var len = browserWidth;
+        while(len > 0){
+            renderStr += "0";
+            len = len - 1;
+        }
+        renderStr += "1";
+        for(i = 0; i < renderStr.length; i++){
+            dataStr += renderStr[i];
+            outputStr += renderStr[i] === "1" ? " " : "*";
+        }
+    } else {
+        for(i = 0; i < renderStr.length; i++){
+            x = i === 0 ? renderStr.length - 1 : i - 1;
+            y = i;
+            z = i === renderStr.length - 1 ? 0 : i + 1;
+
+            ruleIndex = renderStr[x].toString() + renderStr[y].toString() + renderStr[z].toString();
+            dataStr += rule[ruleNum][ruleIndex].toString();
+            outputStr += rule[ruleNum][ruleIndex] === 1 ? " " : "*";
+        }
+    }
+    myCanvas.setAttribute('data-array', dataStr);
+    var maxHeight = Math.floor(self.innerHeight/fontHeight) - 2;
+    var htmlLen = myCanvas.innerHTML.length/(browserWidth + 2);
+    var startIndex = htmlLen < maxHeight ? 0 : htmlLen - maxHeight;
+    myCanvas.innerHTML = myCanvas.innerHTML.slice(startIndex*(browserWidth + 2), myCanvas.innerHTML.length) +  outputStr + "\n";
+    setTimeout(animate, 85);
+}
+</script>
+</body>
+</html>
